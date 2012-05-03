@@ -10,4 +10,8 @@ class Membrane::Schema::Any < Membrane::Schema::Base
   def validate(object)
     nil
   end
+
+  def to_s
+    "any"
+  end
 end

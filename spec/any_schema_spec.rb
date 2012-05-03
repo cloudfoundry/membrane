@@ -11,4 +11,12 @@ describe Membrane::Schema::Any do
       end
     end
   end
+
+  describe "#to_s" do
+    it "should return 'any'" do
+      schema = Membrane::Schema::Any.new
+
+      schema.to_s.should == "any"
+    end
+  end
 end
