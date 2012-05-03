@@ -13,4 +13,15 @@ describe Membrane::Schema::Value do
       expect_validation_failure(schema, "tast", /Expected test/)
     end
   end
+
+  describe "#to_s" do
+    it "should proxy to the value in the schema" do
+      val = mock("value")
+      val.should_receive(:to_s)
+
+      schema = Membrane::Schema::Value.new(val)
+
+      schema.to_s
+    end
+  end
 end

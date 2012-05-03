@@ -19,4 +19,8 @@ class Membrane::Schema::Value < Membrane::Schema::Base
       raise Membrane::SchemaValidationError.new(emsg)
     end
   end
+
+  def to_s
+    @value.to_s
+  end
 end
