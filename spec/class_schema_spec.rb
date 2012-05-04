@@ -19,4 +19,13 @@ describe Membrane::Schema::Class do
       expect_validation_failure(schema, 10, /instance of String/)
     end
   end
+
+  describe "#to_s" do
+    it "should call 'name' on the underlying class" do
+      klass = mock("klass")
+      klass.should_receive(:name)
+
+      Membrane::Schema::Class.new(klass).to_s
+    end
+  end
 end

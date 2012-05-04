@@ -21,4 +21,8 @@ class Membrane::Schema::Class < Membrane::Schema::Base
       raise Membrane::SchemaValidationError.new(emsg)
     end
   end
+
+  def to_s
+    @klass.name
+  end
 end
