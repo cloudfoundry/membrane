@@ -15,4 +15,10 @@ describe Membrane::Schema::Bool do
       end
     end
   end
+
+  describe "#to_s" do
+    it "should return 'bool'" do
+      Membrane::Schema::Bool.new.to_s.should == "bool"
+    end
+  end
 end
