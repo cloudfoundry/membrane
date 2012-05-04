@@ -21,6 +21,6 @@ class Membrane::Schema::Value < Membrane::Schema::Base
   end
 
   def to_s
-    @value.to_s
+    @value.to_s.gsub(/\n/, "\\n")
   end
 end

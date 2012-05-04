@@ -17,11 +17,15 @@ describe Membrane::Schema::Value do
   describe "#to_s" do
     it "should proxy to the value in the schema" do
       val = mock("value")
-      val.should_receive(:to_s)
+      val.should_receive(:to_s).and_return("test")
 
       schema = Membrane::Schema::Value.new(val)
 
       schema.to_s
+    end
+
+    it "should escape newlines" do
+      Membrane::Schema::Value.new("te\\nst\n").to_s.should == "te\\nst\\n"
     end
   end
 end
