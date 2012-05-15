@@ -54,4 +54,20 @@ describe Membrane::Schema::Dictionary do
       errors.should match(/bar/)
     end
   end
+
+  describe "#to_s" do
+    it "should call 'to_s' on the configured key and value schemas" do
+      key_schema = mock("key_schema")
+      key_schema.should_receive(:to_s).and_return("key_schema")
+
+      val_schema = mock("val_schema")
+      val_schema.should_receive(:to_s).and_return("val_schema")
+
+      dict_schema = Membrane::Schema::Dictionary.new(key_schema, val_schema)
+
+      dict_schema_str = dict_schema.to_s
+
+      dict_schema_str.should == "dict(key_schema, val_schema)"
+    end
+  end
 end

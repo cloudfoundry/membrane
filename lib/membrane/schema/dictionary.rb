@@ -37,4 +37,8 @@ class Membrane::Schema::Dictionary
       raise Membrane::SchemaValidationError.new(emsg)
     end
   end
+
+  def to_s
+    "dict(#{@key_schema}, #{@value_schema})"
+  end
 end
