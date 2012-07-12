@@ -29,6 +29,7 @@ class Membrane::SchemaParser
     end
 
     def optional(key)
+      key = key.to_s
       Dsl::OptionalKeyMarker.new(key)
     end
 
@@ -140,6 +141,7 @@ class Membrane::SchemaParser
         optional_keys << key
       end
 
+      key = key.to_s
       parsed[key] = do_parse(value_schema)
     end
 

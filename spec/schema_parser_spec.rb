@@ -244,6 +244,19 @@ EOT
         schema.class.should == Membrane::Schema::Record
         schema.optional_keys.to_a.should == ["test"]
       end
+
+      it "should convert symbolized keys to strings" do
+        schema = parser.parse do
+          {
+            :required => Integer,
+            optional(:optional) => String
+          }
+        end
+
+        schema.class.should == Membrane::Schema::Record
+        schema.optional_keys.to_a.should == ["optional"]
+        schema.schemas.keys.to_a.should =~ ["required", "optional"]
+      end
     end
   end
 end
