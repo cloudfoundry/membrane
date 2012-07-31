@@ -145,7 +145,7 @@ class Membrane::SchemaParser
   def deparse_record(schema)
     lines = ["{"]
 
-    schema.schemas.each do |key, val_schema|
+    schema.schemas.each_with_index do |(key, val_schema), index|
       dep_key = nil
       if schema.optional_keys.include?(key)
         dep_key = "optional(%s)" % [key.inspect]
@@ -153,6 +153,7 @@ class Membrane::SchemaParser
         dep_key = key.inspect
       end
 
+      dep_key = DEPARSE_INDENT + dep_key
       dep_val_schema_lines = deparse(val_schema).split("\n")
 
       dep_val_schema_lines.each_with_index do |line, line_idx|
@@ -168,7 +169,9 @@ class Membrane::SchemaParser
         # This concludes the deparsed schema, append a comma in preparation
         # for the next k-v pair.
         if dep_val_schema_lines.size - 1 == line_idx
-          to_append += ","
+          if index != schema.schemas.size - 1
+            to_append += ","
+          end
         end
 
         lines << to_append
