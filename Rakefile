@@ -8,7 +8,6 @@ RSpec::Core::RakeTask.new("spec") do |t|
 end
 
 desc "Run all specs and provide output for ci"
-RSpec::Core::RakeTask.new("spec:ci" => "ci:setup:rspec") do |t|
-  t.rspec_opts = %w[--no-color --format documentation]
+RSpec::Core::RakeTask.new("spec:ci" => "spec") do |t|
+  # t.rspec_opts = %w[--no-color --format documentation]
 end
-
