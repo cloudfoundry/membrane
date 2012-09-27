@@ -1,6 +1,6 @@
 # Membrane
 
-Membrane provides an easy to use DSL for specifying validators declaratively.
+embrane provides an easy to use DSL for specifying validators declaratively.
 It's intended to be used to validate data received from external sources,
 such as API endpoints or config files. Use it at the edges of your process to
 decide what data to let in and what to keep out.

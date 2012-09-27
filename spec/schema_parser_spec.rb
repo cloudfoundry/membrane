@@ -5,6 +5,8 @@ describe Membrane::SchemaParser do
 
   describe "#deparse" do
     it "should call inspect on the value of a Value schema" do
+      sleep 5
+
       val = "test"
       val.should_receive(:inspect).twice
       schema = Membrane::Schema::Value.new(val)
@@ -200,6 +202,7 @@ EOT
 
     describe "when parsing a list" do
       it "should raise an error when no element schema is supplied" do
+        sleep 5
         expect do
           parser.parse { [] }
         end.to raise_error(ArgumentError, /must supply/)
@@ -223,6 +226,7 @@ EOT
 
     describe "when parsing a record" do
       it "should raise an error if the record is empty" do
+        sleep 5
         expect do
           parser.parse { {} }
         end.to raise_error(ArgumentError, /must supply/)
