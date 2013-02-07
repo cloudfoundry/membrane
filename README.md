@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/cloudfoundry/membrane.png)](https://travis-ci.org/cloudfoundry/membrane)
+
 # Membrane
 
 Membrane provides an easy to use DSL for specifying validators declaratively.
