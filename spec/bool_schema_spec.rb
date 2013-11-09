@@ -1,9 +1,9 @@
 require "spec_helper"
 
 
-describe Membrane::Schema::Bool do
+describe Membrane::Schemas::Bool do
   describe "#validate" do
-    let(:schema) { Membrane::Schema::Bool.new }
+    let(:schema) { Membrane::Schemas::Bool.new }
 
     it "should return nil for {true, false}" do
       [true, false].each { |v| schema.validate(v).should be_nil }

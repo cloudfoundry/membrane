@@ -1,14 +1,14 @@
 require "set"
 
 require "membrane/errors"
-require "membrane/schema/base"
+require "membrane/schemas/base"
 
 module Membrane
   module Schema
   end
 end
 
-class Membrane::Schema::Record < Membrane::Schema::Base
+class Membrane::Schemas::Record < Membrane::Schemas::Base
   attr_reader :schemas
   attr_reader :optional_keys
 

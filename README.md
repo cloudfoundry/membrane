@@ -188,4 +188,4 @@ can be used as a schema:
     def validate(object)
 
 If you wish to include your new schema as part of the DSL, you'll need to
-modify ```membrane/schema_parser.rb``` and have your class inherit from ```Membrane::Schema::Base```
+modify ```membrane/schema_parser.rb``` and have your class inherit from ```Membrane::Schemas::Base```

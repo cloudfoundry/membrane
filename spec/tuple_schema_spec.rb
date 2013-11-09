@@ -1,10 +1,10 @@
 require "spec_helper"
 
-describe Membrane::Schema::Tuple do
+describe Membrane::Schemas::Tuple do
   let(:schema) do
-    Membrane::Schema::Tuple.new(Membrane::Schema::Class.new(String),
-                                Membrane::Schema::ANY,
-                                Membrane::Schema::Class.new(Integer))
+    Membrane::Schemas::Tuple.new(Membrane::Schemas::Class.new(String),
+                                Membrane::Schemas::Any.new,
+                                Membrane::Schemas::Class.new(Integer))
   end
 
   describe "#validate" do

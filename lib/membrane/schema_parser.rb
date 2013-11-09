@@ -1,4 +1,4 @@
-require "membrane/schema"
+require "membrane/schemas"
 
 module Membrane
 end
@@ -13,11 +13,11 @@ class Membrane::SchemaParser
     TupleMarker       = Struct.new(:elem_schemas)
 
     def any
-      Membrane::Schema::Any.new
+      Membrane::Schemas::Any.new
     end
 
     def bool
-      Membrane::Schema::Bool.new
+      Membrane::Schemas::Bool.new
     end
 
     def enum(*elem_schemas)
@@ -53,31 +53,31 @@ class Membrane::SchemaParser
 
   def deparse(schema)
     case schema
-    when Membrane::Schema::Any
+    when Membrane::Schemas::Any
       "any"
-    when Membrane::Schema::Bool
+    when Membrane::Schemas::Bool
       "bool"
-    when Membrane::Schema::Class
+    when Membrane::Schemas::Class
       schema.klass.name
-    when Membrane::Schema::Dictionary
+    when Membrane::Schemas::Dictionary
       "dict(%s, %s)" % [deparse(schema.key_schema),
                         deparse(schema.value_schema)]
-    when Membrane::Schema::Enum
+    when Membrane::Schemas::Enum
       "enum(%s)" % [schema.elem_schemas.map { |es| deparse(es) }.join(", ")]
-    when Membrane::Schema::List
+    when Membrane::Schemas::List
       "[%s]" % [deparse(schema.elem_schema)]
-    when Membrane::Schema::Record
+    when Membrane::Schemas::Record
       deparse_record(schema)
-    when Membrane::Schema::Regexp
+    when Membrane::Schemas::Regexp
       schema.regexp.inspect
-    when Membrane::Schema::Tuple
+    when Membrane::Schemas::Tuple
       "tuple(%s)" % [schema.elem_schemas.map { |es| deparse(es) }.join(", ")]
-    when Membrane::Schema::Value
+    when Membrane::Schemas::Value
       schema.value.inspect
-    when Membrane::Schema::Base
+    when Membrane::Schemas::Base
       schema.inspect
     else
-      emsg = "Expected instance of Membrane::Schema::Base, given instance of" \
+      emsg = "Expected instance of Membrane::Schemas::Base, given instance of" \
              + " #{schema.class}"
       raise ArgumentError.new(emsg)
     end
@@ -92,22 +92,22 @@ class Membrane::SchemaParser
     when Array
       parse_list(object)
     when Class
-      Membrane::Schema::Class.new(object)
+      Membrane::Schemas::Class.new(object)
     when Regexp
-      Membrane::Schema::Regexp.new(object)
+      Membrane::Schemas::Regexp.new(object)
     when Dsl::DictionaryMarker
-      Membrane::Schema::Dictionary.new(do_parse(object.key_schema),
+      Membrane::Schemas::Dictionary.new(do_parse(object.key_schema),
                                        do_parse(object.value_schema))
     when Dsl::EnumMarker
       elem_schemas = object.elem_schemas.map { |s| do_parse(s) }
-      Membrane::Schema::Enum.new(*elem_schemas)
+      Membrane::Schemas::Enum.new(*elem_schemas)
     when Dsl::TupleMarker
       elem_schemas = object.elem_schemas.map { |s| do_parse(s) }
-      Membrane::Schema::Tuple.new(*elem_schemas)
-    when Membrane::Schema::Base
+      Membrane::Schemas::Tuple.new(*elem_schemas)
+    when Membrane::Schemas::Base
       object
     else
-      Membrane::Schema::Value.new(object)
+      Membrane::Schemas::Value.new(object)
     end
   end
 
@@ -118,7 +118,7 @@ class Membrane::SchemaParser
       raise ArgumentError.new("Lists can only match a single schema.")
     end
 
-    Membrane::Schema::List.new(do_parse(schema[0]))
+    Membrane::Schemas::List.new(do_parse(schema[0]))
   end
 
   def parse_record(schema)
@@ -139,7 +139,7 @@ class Membrane::SchemaParser
       parsed[key] = do_parse(value_schema)
     end
 
-    Membrane::Schema::Record.new(parsed, optional_keys)
+    Membrane::Schemas::Record.new(parsed, optional_keys)
   end
 
   def deparse_record(schema)
