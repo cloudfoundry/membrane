@@ -25,8 +25,10 @@ class Membrane::Schemas::Record < Membrane::Schemas::Base
 
     key_errors = {}
 
+    schema_keys = []
     @schemas.each do |k, schema|
       if object.has_key?(k)
+        schema_keys << k
         begin
           schema.validate(object[k])
         rescue Membrane::SchemaValidationError => e
@@ -35,6 +37,11 @@ class Membrane::Schemas::Record < Membrane::Schemas::Base
       elsif !@optional_keys.include?(k)
         key_errors[k] = "Missing key"
       end
+    end
+
+    extra_keys = object.keys - schema_keys
+    extra_keys.each do |k|
+      key_errors[k] = "was not specified in the schema"
     end
 
     if key_errors.size > 0
