@@ -69,5 +69,21 @@ describe Membrane::Schemas::Record do
     end
   end
 
+  describe "#parse" do
+    it "allows chaining/inheritance of schemas" do
+      base_schema = Membrane::SchemaParser.parse{{
+        "key" => String
+      }}
+
+      specific_schema = base_schema.parse{{
+        "another_key" => String
+      }}
+
+      input_hash = {
+        "key" => "value",
+        "another_key" => "another value",
+      }
+      specific_schema.validate(input_hash).should == nil
+    end
   end
 end

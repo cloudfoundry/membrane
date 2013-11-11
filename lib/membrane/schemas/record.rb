@@ -49,4 +49,12 @@ class Membrane::Schemas::Record < Membrane::Schemas::Base
       raise Membrane::SchemaValidationError.new(emsg)
     end
   end
+
+  def parse(&blk)
+    other_record = Membrane::SchemaParser.parse(&blk)
+    @schemas.merge!(other_record.schemas)
+    @optional_keys << other_record.optional_keys
+
+    self
+  end
 end
