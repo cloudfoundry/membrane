@@ -53,19 +53,38 @@ describe Membrane::Schemas::Record do
       errors.should match(/bar/)
     end
 
-    it "raises an error if there are extra keys that are not matched in the schema" do
-      data = {
-        "key" => "value",
-        "other_key" => 2,
-      }
+    context "when strict checking" do
+      it "raises an error if there are extra keys that are not matched in the schema" do
+        data = {
+          "key" => "value",
+          "other_key" => 2,
+        }
 
-      rec_schema = Membrane::Schemas::Record.new({
-        "key" => Membrane::Schemas::Class.new(String)
-      })
+        rec_schema = Membrane::Schemas::Record.new({
+          "key" => Membrane::Schemas::Class.new(String)
+        }, [], true)
 
-      expect {
-        rec_schema.validate(data)
-      }.to raise_error(/other_key .* was not specified/)
+        expect {
+          rec_schema.validate(data)
+        }.to raise_error(/other_key .* was not specified/)
+      end
+    end
+
+    context "when not strict checking" do
+      it "doesnt raise an error" do
+        data = {
+          "key" => "value",
+          "other_key" => 2,
+        }
+
+        rec_schema = Membrane::Schemas::Record.new({
+          "key" => Membrane::Schemas::Class.new(String)
+        })
+
+        expect {
+          rec_schema.validate(data)
+        }.to_not raise_error
+      end
     end
   end
 
