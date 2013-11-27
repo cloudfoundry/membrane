@@ -1,14 +1,9 @@
 require "set"
 
 require "membrane/errors"
-require "membrane/schema/base"
+require "membrane/schemas/base"
 
-module Membrane
-  module Schema
-  end
-end
-
-class Membrane::Schema::Bool < Membrane::Schema::Base
+class Membrane::Schemas::Bool < Membrane::Schemas::Base
   TRUTH_VALUES = Set.new([true, false])
 
   def validate(object)

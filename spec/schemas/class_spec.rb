@@ -1,9 +1,9 @@
 require "spec_helper"
 
 
-describe Membrane::Schema::Class do
+describe Membrane::Schemas::Class do
   describe "#validate" do
-    let(:schema) { Membrane::Schema::Class.new(String) }
+    let(:schema) { Membrane::Schemas::Class.new(String) }
 
     it "should return nil for instances of the supplied class" do
       schema.validate("test").should be_nil

@@ -1,9 +1,9 @@
 require "spec_helper"
 
 
-describe Membrane::Schema::Value do
+describe Membrane::Schemas::Value do
   describe "#validate" do
-    let(:schema) { Membrane::Schema::Value.new("test") }
+    let(:schema) { Membrane::Schemas::Value.new("test") }
 
     it "should return nil for values that are equal" do
       schema.validate("test").should be_nil

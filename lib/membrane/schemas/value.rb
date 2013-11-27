@@ -1,12 +1,12 @@
 require "membrane/errors"
-require "membrane/schema/base"
+require "membrane/schemas/base"
 
 module Membrane
   module Schema
   end
 end
 
-class Membrane::Schema::Value < Membrane::Schema::Base
+class Membrane::Schemas::Value < Membrane::Schemas::Base
   attr_reader :value
 
   def initialize(value)

@@ -1,7 +1,7 @@
 require "spec_helper"
 
-describe Membrane::Schema::Regexp do
-  let(:schema) { Membrane::Schema::Regexp.new(/bar/) }
+describe Membrane::Schemas::Regexp do
+  let(:schema) { Membrane::Schemas::Regexp.new(/bar/) }
 
   describe "#validate" do
     it "should raise an error if the validated object isn't a string" do

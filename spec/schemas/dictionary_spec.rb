@@ -1,11 +1,11 @@
 require "spec_helper"
 
-describe Membrane::Schema::Dictionary do
+describe Membrane::Schemas::Dictionary do
   describe "#validate" do
     let (:data) { { "foo" => 1, "bar" => 2 } }
 
     it "should return an error if supplied with a non-hash" do
-      schema = Membrane::Schema::Dictionary.new(nil, nil)
+      schema = Membrane::Schemas::Dictionary.new(nil, nil)
 
       expect_validation_failure(schema, "test", /instance of Hash/)
     end
@@ -15,19 +15,19 @@ describe Membrane::Schema::Dictionary do
 
       data.keys.each { |k| key_schema.should_receive(:validate).with(k) }
 
-      dict_schema = Membrane::Schema::Dictionary.new(key_schema,
-                                                     Membrane::Schema::Any.new)
+      dict_schema = Membrane::Schemas::Dictionary.new(key_schema,
+                                                     Membrane::Schemas::Any.new)
 
       dict_schema.validate(data)
     end
 
     it "should validate the value for each valid key" do
-      key_schema = Membrane::Schema::Class.new(String)
+      key_schema = Membrane::Schemas::Class.new(String)
       val_schema = mock("val_schema")
 
       data.values.each { |v| val_schema.should_receive(:validate).with(v) }
 
-      dict_schema = Membrane::Schema::Dictionary.new(key_schema, val_schema)
+      dict_schema = Membrane::Schemas::Dictionary.new(key_schema, val_schema)
 
       dict_schema.validate(data)
     end
@@ -38,9 +38,9 @@ describe Membrane::Schema::Dictionary do
         :bar  => 2,
       }
 
-      key_schema = Membrane::Schema::Class.new(String)
-      val_schema = Membrane::Schema::Class.new(Integer)
-      dict_schema = Membrane::Schema::Dictionary.new(key_schema, val_schema)
+      key_schema = Membrane::Schemas::Class.new(String)
+      val_schema = Membrane::Schemas::Class.new(Integer)
+      dict_schema = Membrane::Schemas::Dictionary.new(key_schema, val_schema)
 
       errors = nil
 

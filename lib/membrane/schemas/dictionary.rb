@@ -1,12 +1,12 @@
 require "membrane/errors"
-require "membrane/schema/base"
+require "membrane/schemas/base"
 
 module Membrane
   module Schema
   end
 end
 
-class Membrane::Schema::Dictionary < Membrane::Schema::Base
+class Membrane::Schemas::Dictionary < Membrane::Schemas::Base
   attr_reader :key_schema
   attr_reader :value_schema
 

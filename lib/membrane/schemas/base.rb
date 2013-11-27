@@ -1,9 +1,4 @@
-module Membrane
-  module Schema
-  end
-end
-
-class Membrane::Schema::Base
+class Membrane::Schemas::Base
   # Verifies whether or not the supplied object conforms to this schema
   #
   # @param [Object]  The object being validated

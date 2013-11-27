@@ -1,9 +1,9 @@
 require "spec_helper"
 
 
-describe Membrane::Schema::Base do
+describe Membrane::Schemas::Base do
   describe "#validate" do
-    let(:schema) { Membrane::Schema::Base.new }
+    let(:schema) { Membrane::Schemas::Base.new }
 
     it "should raise error" do
       expect { schema.validate }.to raise_error
