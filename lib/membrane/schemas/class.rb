@@ -10,9 +10,25 @@ class Membrane::Schemas::Class < Membrane::Schemas::Base
 
   # Validates whether or not the supplied object is derived from klass
   def validate(object)
-    if !object.kind_of?(@klass)
+    ClassValidator.new(@klass, object).validate
+  end
+
+  class ClassValidator
+
+    def initialize(klass, object)
+      @klass = klass
+      @object = object
+    end
+
+    def validate
+      fail! if !@object.kind_of?(@klass)
+    end
+
+    private
+
+    def fail!
       emsg = "Expected instance of #{@klass}," \
-             + " given an instance of #{object.class}"
+             + " given an instance of #{@object.class}"
       raise Membrane::SchemaValidationError.new(emsg)
     end
   end

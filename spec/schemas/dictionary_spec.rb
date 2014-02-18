@@ -11,7 +11,7 @@ describe Membrane::Schemas::Dictionary do
     end
 
     it "should validate each key against the supplied key schema" do
-      key_schema = mock("key_schema")
+      key_schema = double("key_schema")
 
       data.keys.each { |k| key_schema.should_receive(:validate).with(k) }
 
@@ -23,7 +23,7 @@ describe Membrane::Schemas::Dictionary do
 
     it "should validate the value for each valid key" do
       key_schema = Membrane::Schemas::Class.new(String)
-      val_schema = mock("val_schema")
+      val_schema = double("val_schema")
 
       data.values.each { |v| val_schema.should_receive(:validate).with(v) }
 

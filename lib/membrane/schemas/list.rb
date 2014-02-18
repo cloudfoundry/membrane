@@ -14,22 +14,48 @@ class Membrane::Schemas::List < Membrane::Schemas::Base
   end
 
   def validate(object)
-    if !object.kind_of?(Array)
-      emsg = "Expected instance of Array, given instance of #{object.class}"
+    ArrayValidator.new(object).validate
+    MemberValidator.new(@elem_schema, object).validate
+  end
+
+  class ArrayValidator
+    def initialize(object)
+      @object = object
+    end
+
+    def validate
+      fail! if !@object.kind_of?(Array)
+    end
+
+    private
+
+    def fail!
+      emsg = "Expected instance of Array, given instance of #{@object.class}"
       raise Membrane::SchemaValidationError.new(emsg)
     end
+  end
 
-    errors = {}
-
-    object.each_with_index do |elem, ii|
-      begin
-        @elem_schema.validate(elem)
-      rescue Membrane::SchemaValidationError => e
-        errors[ii] = e.to_s
-      end
+  class MemberValidator
+    def initialize(elem_schema, object)
+      @elem_schema = elem_schema
+      @object = object
     end
 
-    if errors.size > 0
+    def validate
+      errors = {}
+
+      @object.each_with_index do |elem, ii|
+        begin
+          @elem_schema.validate(elem)
+        rescue Membrane::SchemaValidationError => e
+          errors[ii] = e.to_s
+        end
+      end
+
+      fail!(errors) if errors.size > 0
+    end
+
+    def fail!(errors)
       emsg = errors.map { |ii, e| "At index #{ii}: #{e}" }.join(", ")
       raise Membrane::SchemaValidationError.new(emsg)
     end

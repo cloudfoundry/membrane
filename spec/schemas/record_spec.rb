@@ -22,8 +22,8 @@ describe Membrane::Schemas::Record do
       }
 
       key_schemas = {
-        "foo" => mock("foo"),
-        "bar" => mock("bar"),
+        "foo" => double("foo"),
+        "bar" => double("bar"),
       }
 
       key_schemas.each { |k, m| m.should_receive(:validate).with(data[k]) }

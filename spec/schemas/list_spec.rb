@@ -9,7 +9,7 @@ describe Membrane::Schemas::List do
     end
 
     it "should invoke validate each list item against the supplied schema" do
-      item_schema = mock("item_schema")
+      item_schema = double("item_schema")
 
       data = [0, 1, 2]
 

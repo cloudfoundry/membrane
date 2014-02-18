@@ -14,8 +14,23 @@ class Membrane::Schemas::Value < Membrane::Schemas::Base
   end
 
   def validate(object)
-    if object != @value
-      emsg = "Expected #{@value}, given #{object}"
+    ValueValidator.new(@value, object).validate
+  end
+
+  class ValueValidator
+    def initialize(value, object)
+      @value = value
+      @object = object
+    end
+
+    def validate
+      fail!(@value, @object) if @object != @value
+    end
+
+    private
+
+    def fail!(expected, given)
+      emsg = "Expected #{expected}, given #{given}"
       raise Membrane::SchemaValidationError.new(emsg)
     end
   end

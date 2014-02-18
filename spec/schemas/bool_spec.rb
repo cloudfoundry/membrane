@@ -1,6 +1,5 @@
 require "spec_helper"
 
-
 describe Membrane::Schemas::Bool do
   describe "#validate" do
     let(:schema) { Membrane::Schemas::Bool.new }

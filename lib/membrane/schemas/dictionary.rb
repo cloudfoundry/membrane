@@ -16,23 +16,52 @@ class Membrane::Schemas::Dictionary < Membrane::Schemas::Base
   end
 
   def validate(object)
-    if !object.kind_of?(Hash)
-      emsg = "Expected instance of Hash, given instance of #{object.class}."
+    HashValidator.new(object).validate
+    MembersValidator.new(@key_schema, @value_schema, object).validate
+  end
+
+  class HashValidator
+    def initialize(object)
+      @object = object
+    end
+
+    def validate
+      fail!(@object.class) if !@object.kind_of?(Hash)
+    end
+
+    private
+
+    def fail!(klass)
+      emsg = "Expected instance of Hash, given instance of #{klass}."
       raise Membrane::SchemaValidationError.new(emsg)
     end
+  end
 
-    errors = {}
-
-    object.each do |k, v|
-      begin
-        @key_schema.validate(k)
-        @value_schema.validate(v)
-      rescue Membrane::SchemaValidationError => e
-        errors[k] = e.to_s
-      end
+  class MembersValidator
+    def initialize(key_schema, value_schema, object)
+      @key_schema = key_schema
+      @value_schema = value_schema
+      @object = object
     end
 
-    if errors.size > 0
+    def validate
+      errors = {}
+
+      @object.each do |k, v|
+        begin
+          @key_schema.validate(k)
+          @value_schema.validate(v)
+        rescue Membrane::SchemaValidationError => e
+          errors[k] = e.to_s
+        end
+      end
+
+      fail!(errors) if errors.size > 0
+    end
+
+    private
+
+    def fail!(errors)
       emsg = "{ " + errors.map { |k, e| "#{k} => #{e}" }.join(", ") + " }"
       raise Membrane::SchemaValidationError.new(emsg)
     end
