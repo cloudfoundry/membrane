@@ -16,15 +16,13 @@ class Membrane::Schemas::Bool < Membrane::Schemas::Base
     end
 
     def validate
-      if !TRUTH_VALUES.include?(@object)
-        fail!
-      end
+      fail!(@object) if !TRUTH_VALUES.include?(@object)
     end
 
     private
 
-    def fail!
-      emsg = "Expected instance of true or false, given #{@object}"
+    def fail!(object)
+      emsg = "Expected instance of true or false, given #{object}"
       raise Membrane::SchemaValidationError.new(emsg)
     end
   end

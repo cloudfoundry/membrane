@@ -27,13 +27,13 @@ class Membrane::Schemas::Tuple < Membrane::Schemas::Base
     end
 
     def validate
-      fail! if !@object.kind_of?(Array)
+      fail!(@object) if !@object.kind_of?(Array)
     end
 
     private
 
-    def fail!
-      emsg = "Expected instance of Array, given instance of #{@object.class}"
+    def fail!(object)
+      emsg = "Expected instance of Array, given instance of #{object.class}"
       raise Membrane::SchemaValidationError.new(emsg)
     end
   end

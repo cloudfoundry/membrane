@@ -12,3 +12,4 @@ RSpec::Core::RakeTask.new("spec:ci" => "ci:setup:rspec") do |t|
   t.rspec_opts = %w[--no-color --format documentation]
 end
 
+task :default => [:spec]

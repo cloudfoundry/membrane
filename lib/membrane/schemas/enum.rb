@@ -32,15 +32,15 @@ class Membrane::Schemas::Enum < Membrane::Schemas::Base
         end
       end
 
-      fail!(@elem_schemas)
+      fail!(@elem_schemas, @object)
     end
 
     private
 
-    def fail!(elem_schemas)
+    def fail!(elem_schemas, object)
       elem_schema_str = elem_schemas.map { |s| s.to_s }.join(", ")
 
-      emsg = "Object #{@object} doesn't validate" \
+      emsg = "Object #{object} doesn't validate" \
            + " against any of #{elem_schema_str}"
       raise Membrane::SchemaValidationError.new(emsg)
     end

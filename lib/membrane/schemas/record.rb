@@ -83,13 +83,13 @@ class Membrane::Schemas::Record < Membrane::Schemas::Base
     end
 
     def validate
-      fail! unless @object.kind_of?(Hash)
+      fail!(@object) unless @object.kind_of?(Hash)
     end
 
     private
 
-    def fail!
-      emsg = "Expected instance of Hash, given instance of #{@object.class}"
+    def fail!(object)
+      emsg = "Expected instance of Hash, given instance of #{object.class}"
       raise Membrane::SchemaValidationError.new(emsg)
     end
   end

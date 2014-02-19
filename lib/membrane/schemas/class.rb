@@ -21,14 +21,14 @@ class Membrane::Schemas::Class < Membrane::Schemas::Base
     end
 
     def validate
-      fail! if !@object.kind_of?(@klass)
+      fail!(@klass, @object) if !@object.kind_of?(@klass)
     end
 
     private
 
-    def fail!
-      emsg = "Expected instance of #{@klass}," \
-             + " given an instance of #{@object.class}"
+    def fail!(klass, object)
+      emsg = "Expected instance of #{klass}," \
+             + " given an instance of #{object.class}"
       raise Membrane::SchemaValidationError.new(emsg)
     end
   end

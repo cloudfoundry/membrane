@@ -27,13 +27,13 @@ class Membrane::Schemas::Regexp < Membrane::Schemas::Base
     end
 
     def validate
-      fail! if !@object.kind_of?(String)
+      fail!(@object) if !@object.kind_of?(String)
     end
 
     private
 
-    def fail!
-      emsg = "Expected instance of String, given instance of #{@object.class}"
+    def fail!(object)
+      emsg = "Expected instance of String, given instance of #{object.class}"
       raise Membrane::SchemaValidationError.new(emsg)
     end
 
@@ -47,13 +47,13 @@ class Membrane::Schemas::Regexp < Membrane::Schemas::Base
     end
 
     def validate
-      fail! if !@regexp.match(@object)
+      fail!(@regexp, @object) if !@regexp.match(@object)
     end
 
     private
 
-    def fail!
-      emsg = "Value #{@object} doesn't match regexp #{@regexp}"
+    def fail!(regexp, object)
+      emsg = "Value #{object} doesn't match regexp #{regexp.inspect}"
       raise Membrane::SchemaValidationError.new(emsg)
     end
   end
