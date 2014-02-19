@@ -4,7 +4,6 @@ require File.expand_path('../lib/membrane/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.name          = "membrane"
   gem.version       = Membrane::VERSION
-  gem.date          = "2012-07-09"
   gem.summary       = "A DSL for validating data."
   gem.homepage      = "http://www.cloudfoundry.org"
   gem.authors       = ["mpage"]
