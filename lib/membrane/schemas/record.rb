@@ -74,7 +74,7 @@ class Membrane::Schemas::Record < Membrane::Schemas::Base
     def fail!(errors)
       emsg =
         if ENV['MEMBRANE_ERROR_USE_QUOTES']
-          "{ " + errors.map { |k, e| "'#{k}' => '#{e}'" }.join(", ") + " }"
+          "{ " + errors.map { |k, e| "'#{k}' => %q(#{e})" }.join(", ") + " }"
         else
           "{ " + errors.map { |k, e| "#{k} => #{e}" }.join(", ") + " }"
         end
