@@ -72,7 +72,12 @@ class Membrane::Schemas::Record < Membrane::Schemas::Base
     end
 
     def fail!(errors)
-      emsg = "{ " + errors.map { |k, e| "#{k} => #{e}" }.join(", ") + " }"
+      emsg =
+        if ENV['MEMBRANE_ERROR_USE_QUOTES']
+          "{ " + errors.map { |k, e| "'#{k}' => '#{e}'" }.join(", ") + " }"
+        else
+          "{ " + errors.map { |k, e| "#{k} => #{e}" }.join(", ") + " }"
+        end
       raise Membrane::SchemaValidationError.new(emsg)
     end
   end
