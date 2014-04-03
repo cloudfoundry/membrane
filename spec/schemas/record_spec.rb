@@ -86,6 +86,37 @@ describe Membrane::Schemas::Record do
         }.to_not raise_error
       end
     end
+
+    context "when ENV['MEMBRANE_ERROR_USE_QUOTES'] is set" do
+      it "returns an error message that can be parsed" do
+        ENV['MEMBRANE_ERROR_USE_QUOTES'] = 'true'
+        rec_schema = Membrane::SchemaParser.parse do
+          { "a_number"    => Integer,
+            "tf"          => bool,
+            "seventeen"   => 17,
+            "nested_hash" => Membrane::SchemaParser.parse { { size: Float } }
+          }
+        end
+        error_hash = nil
+        begin
+          rec_schema.validate(
+            { 'tf' => 'who knows', 'seventeen' => 18,
+              'nested_hash' => { size: 17, color: 'blue' } })
+        rescue Membrane::SchemaValidationError => e
+          error_hash = eval(e.to_s)
+        end
+        error_hash.should include(
+          'tf' => 'Expected instance of true or false, given who knows')
+        error_hash.should include(
+          'a_number' => 'Missing key')
+        error_hash.should include(
+          'seventeen' => 'Expected 17, given 18')
+        error_hash.should include('nested_hash')
+        eval(error_hash['nested_hash']).should include(
+          'size' => 'Expected instance of Float, given an instance of Fixnum')
+        ENV.delete('MEMBRANE_ERROR_USE_QUOTES')
+      end
+    end
   end
 
   describe "#parse" do
